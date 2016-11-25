@@ -18,6 +18,10 @@ public class FileCompare {
 	        System.exit(-1);
 	    }
 		
+		// String sourcepath = "source.txt";
+		// String destpath = "dest.txt";
+		// String outputpath = "output.txt";
+		
 		Job job = new Job();
 		job.setJarByClass(FileCompare.class);
 		job.setJobName("File Comparison");

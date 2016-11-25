@@ -11,7 +11,18 @@ public class FileCompareReducer extends Reducer<Text, IntWritable, Text, IntWrit
 	public void reduce(Text key, Iterable<IntWritable> values,
 		Context context) 
 		throws IOException, InterruptedException {
-		
-		 
+		int len = 0;
+		int file = 0;
+		for(IntWritable value : values)
+		{
+			len++;
+			file = value.get();
+		}
+		if(len != 2){
+			context.write(new Text(key), new IntWritable(file));
+		}
+
 	 }
+	
+	
 }

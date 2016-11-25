@@ -10,8 +10,8 @@ public class SourceFileMapper extends Mapper<LongWritable, Text, Text, IntWritab
 	@Override
 	  public void map(LongWritable key, Text value, Context context)
 	      throws IOException, InterruptedException {
-		//String str1 = value.toString();
 		
+		context.write(new Text(value), new IntWritable(1));
 		 
 	 }
 }

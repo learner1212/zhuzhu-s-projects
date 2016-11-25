@@ -11,5 +11,6 @@ public class DestFileMapper extends Mapper<LongWritable, Text, Text, IntWritable
 	@Override
 	  public void map(LongWritable key, Text value, Context context)
 	      throws IOException, InterruptedException {
+		context.write(new Text(value), new IntWritable(2));
 	}
 }
