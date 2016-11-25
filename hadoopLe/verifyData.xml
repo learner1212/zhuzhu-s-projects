@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property>
+	  <name>verifyData.instanceName</name>
+	  <value>132.122.1.17</value>
+	</property>
+	
+	<property>
+	  <name>verifyData.port</name>
+	  <value>3306</value>
+	</property>
+	
+	<property>
+	 <name>verifyData.schemaName</name>
+	 <value>odp</value>
+	</property>
+	
+	<property>
+	 <name>verifyData.userName</name>
+	 <value>root</value>
+	</property>
+	
+	<property>
+	 <name>verifyData.password</name>
+	 <value>root123</value>
+	</property>
+	
+	<property>
+	 <name>verifyData.hivePath</name>
+	 <value>hdfs://h3/apps/odp/__hive_db/</value>
+	</property>
+	
+	<property>
+	 <name>verifyData.targetDir</name>
+	 <value>hdfs://h3/user/odp/compare/sqlpath</value>
+	</property>
+	
+	<property>
+	 <name>verifyData.resultPath</name>
+	 <value>hdfs://h3/user/odp/compare/compare_result/</value>
+	</property>
+	
+	<property>
+	 <name>verifyData.mapReduceOutputPath</name>
+	 <value>hdfs://h3/user/odp/compare/mapReduceOutput</value>
+	</property>
+
+
+</configuration>
+

@@ -1,0 +1,45 @@
+package learn.mapreduce;
+
+import java.io.IOException;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+public class mapreduce3 {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+        System.out.println("in main method");
+        Configuration conf = new Configuration();
+        FileSystem fileSystem = FileSystem.get(conf);
+        Path path = new Path("hdfs://master:9000/compare_result");
+        if (fileSystem.exists(path)) {
+            fileSystem.delete(path);
+        }
+        if (fileSystem.exists(new Path("hdfs://master:9000/result"))) {
+            fileSystem.delete(new Path("hdfs://master:9000/result"));
+        }
+        FSDataOutputStream fsDataOutputStream = fileSystem.create(path, false);
+        fsDataOutputStream.writeBytes("id\tnam1\tnam2\tnam3\tnam4\tnam5\tnam6\tnam7\tnam8\tnam9\tnam10\tdatetime\n");
+        Job job = new Job();
+        job.setJarByClass(mapreduce3.class);
+        job.setJobName("my test");
+
+        FileOutputFormat.setOutputPath(job, new Path("hdfs://master:9000/result"));
+
+        job.setReducerClass(FullCompareReduce.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(Text.class);
+        MultipleInputs.addInputPath(job, new Path("hdfs://master:9000/compare/test_checksum_1.csv"), TextInputFormat.class, sourceMap.class);
+        MultipleInputs.addInputPath(job, new Path("hdfs://master:9000/compare/test_checksum_2.csv"), TextInputFormat.class, destMap.class);
+        if (job.waitForCompletion(true)) {
+        }
+        fsDataOutputStream.close();
+        fileSystem.close();
+    }
+}
