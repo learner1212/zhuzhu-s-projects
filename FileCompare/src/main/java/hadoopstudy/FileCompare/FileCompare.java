@@ -1,5 +1,7 @@
 package hadoopstudy.FileCompare;
 
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -12,26 +14,30 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class FileCompare {
 	public static void main(String[] args) throws Exception
 	{
-		if (args.length != 3)
-		{
-			System.err.println("Usage: MaxTemperature <input path> <output path>");
-	        System.exit(-1);
-	    }
+//		if (args.length != 3)
+//		{
+//			System.err.println("Usage: File Comparison <input path1> <input path2> <output path>");
+//	        System.exit(-1);
+//	    }
 		
-		// String sourcepath = "source.txt";
-		// String destpath = "dest.txt";
-		// String outputpath = "output.txt";
-		
-		Job job = new Job();
+		Configuration configuration = new PropertiesConfiguration("fileCompare.properties");
+		Job job = new Job(new org.apache.hadoop.conf.Configuration(), "dfafaf");
+//		Job job = new Job(new org.apache.hadoop.conf.Configuration());
 		job.setJarByClass(FileCompare.class);
 		job.setJobName("File Comparison");
 	    
-	    MultipleInputs.addInputPath(job, new Path(args[0]),TextInputFormat.class,SourceFileMapper.class);
-	    MultipleInputs.addInputPath(job, new Path(args[1]),TextInputFormat.class,DestFileMapper.class);
-	    FileOutputFormat.setOutputPath(job, new Path(args[2]));
-
+	    
+        job.setReducerClass(FileCompareReducer.class);
 	    job.setOutputKeyClass(Text.class);
 	    job.setOutputValueClass(IntWritable.class);
+//	    job.setMapperClass(DestFileMapper.class);
+//	    FileInputFormat.addInputPath(job, new Path(configuration.getString("sourcePath")));
+	    MultipleInputs.addInputPath(job, new Path(configuration.getString("sourcePath")),TextInputFormat.class,SourceFileMapper.class);
+	    MultipleInputs.addInputPath(job, new Path(configuration.getString("destPath")),TextInputFormat.class,DestFileMapper.class);
+	    FileOutputFormat.setOutputPath(job, new Path(configuration.getString("jobOutputPath")));
+	    System.out.println("sourcePath:"+configuration.getString("sourcePath"));
+	    System.out.println("destPath:"+configuration.getString("destPath"));
+	    System.out.println("jobOutputPath:"+configuration.getString("jobOutputPath"));
 	    
 	    System.exit(job.waitForCompletion(true)?0:1);
 	}

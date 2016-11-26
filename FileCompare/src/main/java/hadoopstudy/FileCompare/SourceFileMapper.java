@@ -1,6 +1,5 @@
 package hadoopstudy.FileCompare;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapreduce.*;
